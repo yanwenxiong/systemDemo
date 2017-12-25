@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="system2" basedir="./" default="defaultTarget">
+    <property name="age" value="25"></property>
+    <target name="defaultTarget" depends="deleteDir" unless="notExists">
+        <description>this is a depend ant example</description>
+        <echo message="current dir is : ${basedir}"></echo>
+    </target>
+    <target name="deleteDir" depends="deleteFile">
+        <echo message="delete dir"></echo>
+        <delete dir="./anotherDir/new.txt"></delete>
+    </target>
+    <target name="deleteFile" depends="dependedTarget">
+        <echo message="delete file"></echo>
+        <delete file="./anotherDir/new.txt/new.txt"></delete>
+    </target>
+    <target name="dependedTarget" depends="dependTarget2" if="ant.java.version">
+        <echo message="current jdk version : ${ant.java.version}" />
+    </target>
+    <target name="dependTarget2" depends="dependTarget3" >
+        <echo message="current age : ${age}" />
+    </target>
+    <target name="dependTarget3" depends="dependTarget4">
+        <echo message="copy ./build/old.txt to ./build/new.txt"></echo>
+        <copy file="./build/old.txt" tofile="./build/new.txt"></copy>
+    </target>
+    <target name="dependTarget4" depends="dependTarget5">
+        <echo message="copy fileset to fileset"></echo>
+        <copy todir="./newbuild/">
+            <fileset dir="./build"></fileset>
+        </copy>
+    </target>
+    <target name="dependTarget5" depends="deleteDir1">
+        <echo message="copy file to another dir"></echo>
+        <copy file="./build/new.txt" todir="./anotherDir/new.txt"></copy>
+    </target>
+    <target name="deleteDir1">
+        <echo message="delete dir error"></echo>
+        <delete dir="./anotherDir/new.txt"></delete>
+    </target>
+</project>
