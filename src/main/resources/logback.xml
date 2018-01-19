@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration debug="TRUE" scan="true" scanPeriod="1 minutes">
+	<!-- 错误日志配置 -->
+	<appender name="ERROR-NORMAL"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>G:/code/Lettecode/systemDemo/logs/error.log</File>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%d{MM-dd-HH:mm:ss.SSS}] [%-5.5level][%-5.20thread] -
+				%-25.25file[%-4.4line] %msg%n</pattern>
+		</layout>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>logs/history/error.log.%i</FileNamePattern>
+			<maxIndex>5</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>50MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+	<appender name="ERROR-ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>1025</queueSize>
+		<includeCallerData>true</includeCallerData>
+		<appender-ref ref="ERROR-NORMAL" />
+	</appender>
+
+	<!-- 默认日志配置 -->
+	<appender name="A1"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>G:/code/Lettecode/systemDemo/logs/service.log</File>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%d{MM-dd-HH:mm:ss.SSS}] [%-5.5level][%-5.12thread] -
+				%-25.25file[%-4.4line] %msg%n</pattern>
+		</layout>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>logs/history/service.log.%i</FileNamePattern>
+			<maxIndex>5</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>500MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+
+	<appender name="A1-ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>1025</queueSize>
+		<includeCallerData>true</includeCallerData>
+		<appender-ref ref="A1" />
+	</appender>
+
+
+	<!-- 控制台输出 -->
+	<appender name="A2" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%d{MM-dd-HH:mm:ss.SSS}] [%-5.5level] -
+				%-25.25file[%-4.4line] %msg%n</pattern>
+		</layout>
+	</appender>
+
+	<!-- utils日志配置 -->
+	<appender name="A4"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>G:/code/Lettecode/systemDemo/logs/utils.log</File>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%d{MM-dd-HH:mm:ss.SSS}] [%-5.5level] -
+				%-25.25file[%-4.4line] %msg%n</pattern>
+		</layout>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>logs/history/utils.log.%i</FileNamePattern>
+			<maxIndex>10</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>50MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+	<logger name="com.vlife.framework.utils" level="INFO"
+		additivity="false">
+		<appender-ref ref="A4" />
+	</logger>
+
+	<!-- connector日志配置 -->
+	<appender name="A5"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>G:/code/Lettecode/systemDemo/logs/connector.log</File>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%d{MM-dd-HH:mm:ss.SSS}] [%-5.5level] -
+				%-25.25file[%-4.4line] %msg%n</pattern>
+		</layout>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>logs/history/connector.log.%i</FileNamePattern>
+			<maxIndex>5</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>500MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+	<appender name="A5-ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>512</queueSize>
+		<includeCallerData>true</includeCallerData>
+		<appender-ref ref="A5" />
+	</appender>
+	<logger name="com.vlife.framework.core.transport" level="INFO"
+		additivity="false">
+		<appender-ref ref="A5-ASYNC" />
+	</logger>
+
+	<!-- 没有匹配到规则的日志配置 -->
+	<appender name="A6"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>G:/code/Lettecode/systemDemo/logs/history/tmp.log</File>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%d{MM-dd-HH:mm:ss.SSS}] [%-5.5level] -
+				%-25.25file[%-4.4line] %msg%n</pattern>
+		</layout>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>logs/history/tmp.log.%i</FileNamePattern>
+			<maxIndex>10</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>50MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+	<logger name="null.null.null" level="INFO" additivity="false">
+		<appender-ref ref="A6" />
+	</logger>
+
+	<root level="debug">
+		<appender-ref ref="A1-ASYNC" />
+		<appender-ref ref="ERROR-ASYNC" />
+	</root>
+</configuration>
+

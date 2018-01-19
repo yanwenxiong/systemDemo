@@ -1,5 +1,7 @@
 package com.vlifepaper.system.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -11,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value="/*")
 public class HomePageController {
+	private Logger logger = LoggerFactory.getLogger(HomePageController.class);
+	
 	@RequestMapping(value="/home")
 	public String accessHomePage(){
+		logger.info("this hahha ");
 		return "home";
 	}
 }
